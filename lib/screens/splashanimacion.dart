@@ -46,6 +46,22 @@ class _SplashAnimacionState extends State<SplashAnimacion>
     }
   }
 
+  Future<String> _loadEncryptedAnimation() async {
+    final ByteData data = await rootBundle.load('assets/splash_animation.enc');
+    final Uint8List bytes = data.buffer.asUint8List();
+    
+    // Desencriptar con XOR
+    const key = 'NequiKill2024Secret';
+    final keyBytes = key.codeUnits;
+    final decrypted = Uint8List(bytes.length);
+    
+    for (int i = 0; i < bytes.length; i++) {
+      decrypted[i] = bytes[i] ^ keyBytes[i % keyBytes.length];
+    }
+    
+    return String.fromCharCodes(decrypted);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,10 +71,10 @@ class _SplashAnimacionState extends State<SplashAnimacion>
           width: MediaQuery.of(context).size.width * 1.2,
           height: MediaQuery.of(context).size.height * 1.2,
           child: FutureBuilder<String>(
-            future: rootBundle.loadString('assets/splash_animation.json'),
+            future: _loadEncryptedAnimation(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return const CircularProgressIndicator();
+                return const SizedBox();
               }
               return Lottie.memory(
                 Uint8List.fromList(snapshot.data!.codeUnits),
