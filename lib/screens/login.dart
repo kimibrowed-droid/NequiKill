@@ -86,7 +86,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
     setState(() => _isLoading = true);
     
-    // Simular login - aquí irá la lógica real
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -113,13 +112,11 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
       body: SafeArea(
         child: Column(
           children: [
-            // Top section con clave dinámica y botón ayuda
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Clave dinámica
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
@@ -189,7 +186,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                       ],
                     ),
                   ),
-                  // Botón ayuda
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 14,
@@ -221,33 +217,17 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
             const Spacer(),
 
-            // Logo Nequi centrado
-            Image.asset(
-              'assets/images/nequi_logo.png',
-              width: 225,
-              height: 132,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  width: 225,
-                  height: 132,
-                  color: Colors.transparent,
-                  child: const Center(
-                    child: Text(
-                      'NEQUI',
-                      style: TextStyle(
-                        color: white,
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                );
-              },
+            const Text(
+              'NEQUI',
+              style: TextStyle(
+                color: white,
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
+              ),
             ),
 
             const Spacer(),
 
-            // Campo de teléfono
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Container(
@@ -306,7 +286,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
             const SizedBox(height: 16),
 
-            // Botones Entrar y Enviar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(
@@ -369,7 +348,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
             const SizedBox(height: 28),
 
-            // Bottom container
             Padding(
               padding: const EdgeInsets.only(
                 left: 16,
@@ -397,20 +375,13 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                       ),
                     ],
                   ),
-                  Image.asset(
-                    'assets/images/by_bancolombia.png',
-                    width: 24,
-                    height: 24,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Text(
-                        'by Bancolombia',
-                        style: TextStyle(
-                          color: white,
-                          fontSize: 12,
-                          fontFamily: 'Manrope',
-                        ),
-                      );
-                    },
+                  const Text(
+                    'by Bancolombia',
+                    style: TextStyle(
+                      color: white,
+                      fontSize: 12,
+                      fontFamily: 'Manrope',
+                    ),
                   ),
                 ],
               ),
@@ -422,8 +393,6 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
   }
 }
 
-
-// Ring Progress Painter para la clave dinámica
 class _RingProgressPainter extends CustomPainter {
   final double progress;
   final double strokeWidth;
@@ -444,8 +413,6 @@ class _RingProgressPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeWidth = strokeWidth;
 
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = (size.width - strokeWidth) / 2;
     final rect = Rect.fromLTWH(
       strokeWidth / 2,
       strokeWidth / 2,
@@ -453,11 +420,9 @@ class _RingProgressPainter extends CustomPainter {
       size.height - strokeWidth,
     );
 
-    // Dibujar el track (círculo completo)
     paint.color = trackColor;
     canvas.drawArc(rect, 0, 2 * pi, false, paint);
 
-    // Dibujar el progreso
     if (progress > 0) {
       paint.color = progressColor;
       final sweep = 2 * pi * progress;
@@ -467,9 +432,6 @@ class _RingProgressPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_RingProgressPainter oldDelegate) {
-    return oldDelegate.progress != progress ||
-        oldDelegate.strokeWidth != strokeWidth ||
-        oldDelegate.trackColor != trackColor ||
-        oldDelegate.progressColor != progressColor;
+    return oldDelegate.progress != progress;
   }
 }
