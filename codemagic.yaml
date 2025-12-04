@@ -6,15 +6,21 @@ workflows:
     instance_type: mac_mini_m1
     environment:
       flutter: stable
-      xcode: latest
+      xcode: 15.0
       cocoapods: default
     scripts:
       - name: Get Flutter packages
         script: |
           flutter packages pub get
+      - name: Clean iOS build
+        script: |
+          cd ios
+          rm -rf Pods Podfile.lock .symlinks
+          cd ..
+          flutter clean
       - name: Install pods
         script: |
-          find . -name "Podfile" -execdir pod install \;
+          cd ios && pod install --repo-update
       - name: Flutter build iOS (no code signing)
         script: |
           flutter build ios --release --no-codesign
