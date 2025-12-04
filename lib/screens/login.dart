@@ -89,10 +89,8 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         setState(() => _isLoading = false);
-        Navigator.pushReplacementNamed(
-          context,
-          '/pin',
-          arguments: {'userPhone': phone},
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login exitoso con número: $phone')),
         );
       }
     });

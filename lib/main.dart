@@ -1,18 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'screens/pin_screen.dart';
-import 'screens/home_screen.dart';
 import 'screens/splashanimacion.dart';
 import 'screens/login.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  // Comentado temporalmente hasta configurar Firebase
-  // try {
-  //   await Firebase.initializeApp();
-  // } catch (e) {
-  //   debugPrint('Firebase initialization error: $e');
-  // }
+void main() {
   runApp(const NequiKillApp());
 }
 
@@ -38,14 +28,6 @@ class NequiKillApp extends StatelessWidget {
       home: const SplashWrapper(),
       routes: {
         '/login': (context) => const LoginScreen(),
-        '/pin': (context) {
-          final args = ModalRoute.of(context)?.settings.arguments as Map<String, String>?;
-          return PinScreen(userPhone: args?['userPhone'] ?? '');
-        },
-        '/home': (context) {
-          final args = ModalRoute.of(context)?.settings.arguments as Map<String, String>?;
-          return HomeScreen(userPhone: args?['userPhone'] ?? '');
-        },
       },
     );
   }
