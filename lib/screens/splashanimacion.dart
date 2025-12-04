@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
+import 'dart:typed_data';
 
 class SplashAnimacion extends StatefulWidget {
   final VoidCallback? onAnimationComplete;
@@ -52,17 +54,24 @@ class _SplashAnimacionState extends State<SplashAnimacion>
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 1.2,
           height: MediaQuery.of(context).size.height * 1.2,
-          child: Lottie.asset(
-            'assets/splash_animation.json',
-            controller: _controller,
-            onLoaded: (composition) {
-              // Esperar un frame para asegurar que el widget está completamente montado
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                _startAnimation(composition.duration);
-              });
+          child: FutureBuilder<String>(
+            future: rootBundle.loadString('assets/splash_animation.json'),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const CircularProgressIndicator();
+              }
+              return Lottie.memory(
+                Uint8List.fromList(snapshot.data!.codeUnits),
+                controller: _controller,
+                onLoaded: (composition) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _startAnimation(composition.duration);
+                  });
+                },
+                fit: BoxFit.contain,
+                repeat: false,
+              );
             },
-            fit: BoxFit.contain,
-            repeat: false,
           ),
         ),
       ),

@@ -33,6 +33,10 @@ flutter:
     - assets/images/
     - assets/fonts/
     - assets/splash_animation.json
+    - assets/splash_animation.enc
+    - assets/images/nequi_logo.enc
+    - assets/images/by_bancolombia.enc
+    - assets/images/transfiya.enc
 
 
 flutter_native_splash:
