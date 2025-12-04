@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:async';
 import 'dart:math';
 
@@ -215,13 +216,10 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
 
             const Spacer(),
 
-            const Text(
-              'NEQUI',
-              style: TextStyle(
-                color: white,
-                fontSize: 48,
-                fontWeight: FontWeight.bold,
-              ),
+            SvgPicture.asset(
+              'assets/images/nequi_logo.xml',
+              width: 225,
+              height: 132,
             ),
 
             const Spacer(),
@@ -357,12 +355,15 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                 children: [
                   Row(
                     children: [
-                      Icon(
-                        Icons.phone_android,
-                        color: white,
-                        size: 24,
+                      SvgPicture.asset(
+                        'assets/images/transfiya.xml',
+                        width: 46,
+                        height: 46,
+                        colorFilter: const ColorFilter.mode(
+                          white,
+                          BlendMode.srcIn,
+                        ),
                       ),
-                      const SizedBox(width: 8),
                       const Text(
                         '¿Cambiaste tu cel?',
                         style: TextStyle(
@@ -373,13 +374,10 @@ class _LoginScreenState extends State<LoginScreen> with TickerProviderStateMixin
                       ),
                     ],
                   ),
-                  const Text(
-                    'by Bancolombia',
-                    style: TextStyle(
-                      color: white,
-                      fontSize: 12,
-                      fontFamily: 'Manrope',
-                    ),
+                  SvgPicture.asset(
+                    'assets/images/by_bancolombia.xml',
+                    width: 24,
+                    height: 24,
                   ),
                 ],
               ),
